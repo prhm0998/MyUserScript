@@ -1,0 +1,15 @@
+// ==UserScript==
+// @name         ScriptName
+// @namespace    ScriptName
+// @version      0.1.0.0
+// @author       PRHM
+// @include      https://www.example.net/*
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_getResourceText
+// @grant        GM_addStyle
+// @description  コピーしたフォルダーをある程度整形してからpublic/privateに移動する
+// @require                   file:///f:/js/MyUserScript/compiled/public/ScriptName/ScriptName.js
+// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/ScriptName/ScriptName.css
+// ==/UserScript==

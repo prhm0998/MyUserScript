@@ -1,0 +1,9 @@
+// ==UserScript==
+// @name         GitHubPreTagNoTranslate
+// @namespace    GitHubPreTagNoTranslate
+// @version      0.1.0.0
+// @author       PRHM
+// @include      https://github.com/*
+// @description  Github内でコード記述を翻訳しない
+// @require                   file:///f:/js/MyUserScript/compiled/public/GitHubPreTagNoTranslate/GitHubPreTagNoTranslate.js
+// ==/UserScript==

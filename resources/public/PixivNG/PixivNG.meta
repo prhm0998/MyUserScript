@@ -1,0 +1,15 @@
+// ==UserScript==
+// @name         PixivNG
+// @namespace    PixivNG
+// @version      0.1.0.0
+// @author       PRHM
+// @noframes
+// @include      https://www.pixiv.net/*
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @grant        GM.setValue
+// @grant        GM.getValue
+// @description  T
+// @require                   file:///f:/js/MyUserScript/compiled/public/PixivNG/PixivNG.js
+// @grant        GM_getResourceText
+// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/PixivNG/PixivNG.css
+// ==/UserScript==

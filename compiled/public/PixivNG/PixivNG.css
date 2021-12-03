@@ -1,0 +1,70 @@
+.setting-area {
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10;
+}
+
+.tab-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  margin-left: 20px;
+  z-index: 10;
+}
+
+.tab-wrap .tab-label {
+  display: flex;
+  color: #f0f8ff;
+  background: #778899;
+  margin: 0 0px 0 2px;
+  padding: 3px 12px;
+  order: -1;
+}
+
+.tab-wrap .tab-content {
+  position: absolute;
+  top: 22px;
+  width: 300px;
+  display: none;
+  margin-top: 1px;
+}
+
+.tab-wrap .tab-content textarea {
+  width: 100%;
+  height: 250px;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.tab-wrap .tab-switch:checked + .tab-label {
+  background: DeepSkyBlue;
+}
+
+.tab-wrap .tab-switch:checked + .tab-label + .tab-content {
+  display: block;
+}
+
+.tab-wrap .tab-switch {
+  display: none;
+}
+
+.ngButton {
+  display: inline-block;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  color: #67c5ff;
+  border: solid 2px #67c5ff;
+  border-radius: 3px;
+  transition: 0.4s;
+}
+
+.ngButton:hover {
+  background: #67c5ff;
+  color: white;
+}

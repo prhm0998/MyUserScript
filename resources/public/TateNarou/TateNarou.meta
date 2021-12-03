@@ -1,0 +1,17 @@
+// ==UserScript==
+// @name         TateNarou
+// @namespace    TateNarou
+// @version      0.1.0.0
+// @author       PRHM
+// @include      https://ncode.syosetu.com/n*
+// @grant        GM.setValue
+// @grant        GM.getValue
+// @description  縦書き表示
+// @description  本文エリアのマウスホイール
+// @description  本文エリアをダブルクリックで本文エリアに合わせてスクロール
+// @description  「表示調整」にオプション追加
+// @require                   file:///f:/js/MyUserScript/compiled/public/TateNarou/TateNarou.js
+// @grant        GM_getResourceText
+// @grant        GM_addStyle
+// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/TateNarou/TateNarou.css
+// ==/UserScript==

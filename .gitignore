@@ -1,0 +1,14 @@
+node_modules/
+yarn.lock
+yarn-error.log
+.prettierrc
+@types
+
+gm_functions
+*/private
+*/obsolete
+*/test
+.vscode
+.env
+tsconfig.tsbuildinfo
+generatePublishFile.js

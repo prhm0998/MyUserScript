@@ -1,0 +1,16 @@
+{
+  "include": ["resources/**/*"],
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "UMD",
+    "incremental": true, //差分コンパイル
+    "removeComments": true, //コメント削除
+    "noUnusedLocals": false, //使用していないローカル変数は許可
+    "noUnusedParameters": false, //使用していない関数は許可
+    "noImplicitReturns": true, //分岐内にreturnがない箇所があるとエラー
+    "noFallthroughCasesInSwitch": true, //switch caseにreturn/breakがないとエラー
+    "outDir": "./compiled"
+  }
+}
+//resourcesフォルダ以下の全てのフォルダの拡張子.tsのファイルを
+//compiledフォルダ以下にディレクトリ構成を維持した上でコンパイルして出力する

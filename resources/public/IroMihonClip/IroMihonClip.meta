@@ -1,0 +1,14 @@
+// ==UserScript==
+// @name         IroMihonClip
+// @namespace    IroMihonClip
+// @version      0.1.0.0
+// @author       PRHM
+// @require http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+// @noframes
+// @include      https://www.colordic.org/*
+// @description	 色見本 カラーコード横にコピペボタン追加
+// @grant        GM.setClipboard
+// @require                   file:///f:/js/MyUserScript/compiled/public/IroMihonClip/IroMihonClip.js
+// @grant        GM_getResourceText
+// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/IroMihonClip/IroMihonClip.css
+// ==/UserScript==

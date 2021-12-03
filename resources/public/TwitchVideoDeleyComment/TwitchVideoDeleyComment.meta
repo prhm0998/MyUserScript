@@ -1,0 +1,10 @@
+// ==UserScript==
+// @name         TwitchVideoDeleyComment
+// @namespace    TwitchVideoDeleyComment
+// @version      0.1.0.0
+// @author       PRHM
+// @noframes
+// @include      https://www.twitch.tv/videos/*
+// @description	 アーカイブ視聴時にコメント表示を指定時間分遅らせる
+// @require  file:///f:/js/MyUserScript/js/public/TwitchVideoDeleyComment.js
+// ==/UserScript==

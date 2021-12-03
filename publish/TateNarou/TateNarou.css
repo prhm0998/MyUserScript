@@ -1,0 +1,15 @@
+#novel_color {
+  width: 100%;
+}
+
+#novel_honbun {
+  position: relative;
+  width: 97vw;
+  writing-mode: vertical-rl;
+  font-family: 'Noto Serif JP', serif;
+  overflow-y: scroll;
+}
+
+#page_top {
+  display: unset !important;
+}
