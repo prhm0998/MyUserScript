@@ -7,7 +7,7 @@
 // @include      /https:\/\/dic\.pixiv\.net\/a/
 // @description	 Pixiv大百科のテーブル内<tr>の奇数行と偶数行を入れ替え
 // @description  声優ページのcv担当一覧テーブルを上画像下キャプションにしたい
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/PixivDicTableSwap.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/PixivDicTableSwap/PixivDicTableSwap.user.js
 // ==/UserScript==
 
 var PixivDicTableSwap;

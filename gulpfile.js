@@ -159,9 +159,7 @@ function generatePublish(path) {
       arr.splice(
         arr.length - 2,
         0,
-        '// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/' +
-          fileName +
-          '.user.js'
+        `// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/${fileName}/${fileName}.user.js`
       )
       return arr
     }

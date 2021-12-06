@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AnicoBan
 // @namespace    AnicoBan
-// @version      0.1.0.0
+// @version      1.0.0.0
 // @author       PRHM
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @noframes

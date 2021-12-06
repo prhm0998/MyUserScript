@@ -6,7 +6,7 @@
 // @noframes
 // @include      https://www.twitch.tv/videos/*
 // @description	 アーカイブ視聴時にコメント表示を指定時間分遅らせる
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/TwitchVideoDeleyComment.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/TwitchVideoDeleyComment/TwitchVideoDeleyComment.user.js
 // ==/UserScript==
 
 var TwitchVideoDeleyComment;

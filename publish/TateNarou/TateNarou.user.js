@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PH_TateNarou
 // @namespace    PH_TateNarou
-// @version      1.0.0.0
+// @version      0.1.0.0
 // @author       PRHM
 // @include      https://ncode.syosetu.com/n*
 // @grant        GM.setValue
@@ -13,7 +13,7 @@
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @resource     IMPORTED_CSS https://raw.githubusercontent.com/prhm0998/MyUserScript/master/publish/TateNarou/TateNarou.css
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/TateNarou.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/TateNarou/TateNarou.user.js
 // ==/UserScript==
 
 let style;

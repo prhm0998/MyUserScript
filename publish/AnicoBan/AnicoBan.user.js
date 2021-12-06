@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PH_AnicoBan
 // @namespace    PH_AnicoBan
-// @version      0.1.0.0
+// @version      1.0.0.0
 // @author       PRHM
 // @require http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // @noframes
@@ -11,7 +11,7 @@
 // @grant        GM.getValue
 // @grant        GM_getResourceText
 // @resource     IMPORTED_CSS https://raw.githubusercontent.com/prhm0998/MyUserScript/master/publish/AnicoBan/AnicoBan.css
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/AnicoBan.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/AnicoBan/AnicoBan.user.js
 // ==/UserScript==
 
 var AnicoBan;

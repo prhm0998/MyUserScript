@@ -5,7 +5,7 @@
 // @author       PRHM
 // @include      https://github.com/*
 // @description  Github内でコード記述を翻訳しない
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/GitHubPreTagNoTranslate.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/GitHubPreTagNoTranslate/GitHubPreTagNoTranslate.user.js
 // ==/UserScript==
 
 var GitHubPreTagNoTranslate;

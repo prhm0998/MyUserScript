@@ -10,7 +10,7 @@
 // @grant        GM.setClipboard
 // @grant        GM_getResourceText
 // @resource     IMPORTED_CSS https://raw.githubusercontent.com/prhm0998/MyUserScript/master/publish/IroMihonClip/IroMihonClip.css
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/IroMihonClip.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/IroMihonClip/IroMihonClip.user.js
 // ==/UserScript==
 
 var IroMihonClip;

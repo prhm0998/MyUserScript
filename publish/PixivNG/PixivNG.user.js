@@ -11,7 +11,7 @@
 // @description  T
 // @grant        GM_getResourceText
 // @resource     IMPORTED_CSS https://raw.githubusercontent.com/prhm0998/MyUserScript/master/publish/PixivNG/PixivNG.css
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/PixivNG.user.js
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/PixivNG/PixivNG.user.js
 // ==/UserScript==
 
 var PixivNG;
