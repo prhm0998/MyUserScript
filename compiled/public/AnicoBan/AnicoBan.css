@@ -1,38 +1,30 @@
-.setting-area {
-  display: flex;
+.dropDown {
   position: fixed;
   top: 0;
-  right: 0;
+  right: 10px;
   justify-content: flex-end;
   z-index: 100;
 }
 
 .tab-wrap {
   display: flex;
-  flex-wrap: wrap;
   margin-left: auto;
   justify-content: center;
   align-items: center;
   width: 300px;
+  height: 700px;
   margin-left: 20px;
-  z-index: 10;
-}
-
-.tab-wrap .tab-label {
-  display: flex;
-  color: #f0f8ff;
-  background: #778899;
-  margin: 0 0px 0 2px;
-  padding: 3px 12px;
-  order: -1;
 }
 
 .tab-wrap .tab-content {
+  display: flex;
+  flex-flow: column;
   position: absolute;
+  background-color: antiquewhite;
   top: 22px;
   width: 300px;
-  display: none;
   margin-top: 1px;
+  border: solid;
 }
 
 .tab-wrap .tab-content textarea {
@@ -40,18 +32,6 @@
   height: 250px;
   resize: none;
   box-sizing: border-box;
-}
-
-.tab-wrap .tab-switch:checked + .tab-label {
-  background: DeepSkyBlue;
-}
-
-.tab-wrap .tab-switch:checked + .tab-label + .tab-content {
-  display: block;
-}
-
-.tab-wrap .tab-switch {
-  display: none;
 }
 
 .ngButton {

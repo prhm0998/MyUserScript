@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PH_TateNarou
 // @namespace    PH_TateNarou
-// @version      0.1.0.0
+// @version      1.0.0.0
 // @author       PRHM
 // @include      https://ncode.syosetu.com/n*
 // @grant        GM.setValue

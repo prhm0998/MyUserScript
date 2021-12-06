@@ -1,17 +1,14 @@
 namespace AnicoBan {
-  //AnicoBinに簡易的なNG機能を追加します、見づらくします
-  //NG対象のコメントにレスしているコメントも同様に見づらくします
-  //NG対象からのアンカー(コメ下の>>表記)、NG対象へのアンカーは消します
-  //BAN解除後のリロードで表示が復活します
-  //IDの色
-  // NG本人 '#fa8072'
-  // NGへレス '#dda0dd'
-
+  //AnicoBinに簡易的なNG機能を追加します
   class GlobalVariable {
     readonly LOCALNGIDFILE = 'LocalNgIdList'
     readonly LOCALNGWORDFILE = 'LocalNgWordList'
+    readonly LOCALOPTIONFILE = 'LocalOption'
     ngIdHash: Map<string, User>
     ngWordHash: Map<string, Word>
+    hideNgComment: boolean = false //trueはNGを非表示, falseは薄く表示
+    relatedCommentType: boolean = true //NGに対しての返信をNGとして扱う
+    commentCapCount: number = 10 //同じ記事内でn件以上コメントした場合NG
     constructor() {
       this.ngIdHash = new Map<string, User>()
       this.ngWordHash = new Map<string, Word>()
@@ -46,7 +43,6 @@ namespace AnicoBan {
       this.lastFind = lastFind
     }
   }
-  const GV = new GlobalVariable()
   const getFormatDate = (date = new Date()) => {
     const y = date.getFullYear()
     const m = ('00' + (date.getMonth() + 1)).slice(-2)
@@ -66,12 +62,13 @@ namespace AnicoBan {
   let style
   // @ts-ignore
   GM_addStyle(GM_getResourceText('IMPORTED_CSS'))
-  loadLocalNgIdList()
-  loadLocalNgWordList()
-  createSettingArea()
-
-  window.addEventListener('load', () => {
-    console.log('load AnicoBan.js, date:' + getFormatDateF())
+  const GV = new GlobalVariable()
+  window.addEventListener('load', async () => {
+    await loadLocalNgIdList()
+    await loadLocalNgWordList()
+    await loadLocalOption()
+    createSettingArea()
+    console.log('load AnicoBan.js, date:' + getFormatDateF(), GV)
     overWrite_ContentsField()
     window.setTimeout(function () {
       setDisplayList()
@@ -139,7 +136,8 @@ namespace AnicoBan {
         idTotalCount: 0,
         isGuilty: false,
         isBannedId: false,
-        isBannedResponses: false,
+        isBannedCommentCount: false,
+        //isBannedResponses: false,
         isContainsNgWord: false,
       }
       return commentObj
@@ -153,36 +151,45 @@ namespace AnicoBan {
         .slice(0, currentIndex + 1)
         .filter((n) => n.authorId === m.authorId).length
       // prettier-ignore
-      const anchorIds = m.anchorIndexes.map( n => commentsWork.find(m=>m.commentIndex ===n )?.authorId)
+      const anchorIds = m.anchorIndexes.map( n => commentsWork.find(m => m.commentIndex === n )?.authorId)
       // prettier-ignore
       const containsNgWord = [...GV.ngWordHash.keys()].find((word) => m.commentText.includes(word))
       // prettier-ignore
       const isBannedId = GV.ngIdHash.has(m.authorId)
+
+      const isBannedCommentCount = idTotalCount >= GV.commentCapCount
       if (isBannedId) {
         update_BanId(m.authorId)
       }
-      const isBannedResponses = anchorIds.some((n) => GV.ngIdHash.has(n))
-      if (isBannedResponses) {
-        anchorIds
-          .filter((n) => GV.ngIdHash.has(n))
-          .forEach((l) => {
-            update_BanId(l)
-          })
-      }
+      //const isBannedResponses = anchorIds.some((n) => GV.ngIdHash.has(n))
+      //if (isBannedResponses) {
+      //  anchorIds
+      //    .filter((n) => GV.ngIdHash.has(n))
+      //    .forEach((l) => {
+      //      update_BanId(l)
+      //    })
+      //}
       const isContainsNgWord = containsNgWord !== undefined
       if (isContainsNgWord) {
         update_BanWord(containsNgWord)
       }
       m.idCurrentCount = idCurrentCount
       m.idTotalCount = idTotalCount
-      m.isGuilty = isBannedId || isBannedResponses || isContainsNgWord
+      m.isGuilty = isBannedId || isContainsNgWord || isBannedCommentCount
       m.isBannedId = isBannedId
-      m.isBannedResponses = isBannedResponses
+      //m.isBannedResponses = isBannedResponses
       m.isContainsNgWord = isContainsNgWord
+      m.isBannedCommentCount = isBannedCommentCount
       return m
     })
+
     //各コメントに対してHTMLを加工
     comments.forEach((comment, currentIndex) => {
+      //このコメントが返信している先がNGならこのコメントもNG扱いにする
+      const isBannedResponses = comment.anchorIndexes
+        .map((m) => comments.find((n) => n.commentIndex === m)?.isGuilty)
+        .some((m) => m === true)
+
       //書き込み回数を表示する
       if (!comment.element.querySelector('.comment-id-count')) {
         var countElm = document.createElement('span')
@@ -203,7 +210,7 @@ namespace AnicoBan {
         newIdElm.innerHTML = comment.authorId
         if (comment.isBannedId) {
           newIdElm.style.color = '#fa8072'
-        } else if (comment.isBannedResponses) {
+        } else if (isBannedResponses) {
           newIdElm.style.color = '#dda0dd'
         } else if (comment.isContainsNgWord) {
           newIdElm.style.color = '#7b68ee'
@@ -243,7 +250,7 @@ namespace AnicoBan {
           comment.element.querySelector<HTMLSpanElement>('.author-id')
         if (comment.isBannedId) {
           idElm.style.color = '#fa8072'
-        } else if (comment.isBannedResponses) {
+        } else if (isBannedResponses) {
           idElm.style.color = '#ffa500'
         } else if (comment.isContainsNgWord) {
           idElm.style.color = '#7b68ee'
@@ -252,9 +259,10 @@ namespace AnicoBan {
         }
       }
       //------------------------------------------------------
-      // NG登録済み判定
+      // NGコメントの処理
       //------------------------------------------------------
-      if (comment.isGuilty) {
+      if (comment.isGuilty || (GV.relatedCommentType && isBannedResponses)) {
+        if (GV.hideNgComment) comment.element.style.display = 'none'
         comment.element.style.color = '#f0f0f0'
         const body = comment.element.querySelector('.comment-body > span')
         body.classList.remove('cf1', 'cf2', 'cf3')
@@ -330,32 +338,86 @@ namespace AnicoBan {
   }
 
   function createSettingArea() {
-    const newElm = textToElm(`
-    <div class="setting-area">
+    const dropDown = textToElm(`
+    <div class="dropDown">
+      <div>
+        <label for="extentionOptions">拡張メニュー</label>
+        <select id="extentionOptions">
+          <option value="close" selected>閉じる</option>
+          <option value="NGID">NGID</option>
+          <option value="NGTEXT">NGTEXT</option>
+          <option value="OPTION">OPTION</option>
+        </select>
+      </div>
       <div class="tab-wrap">
-        <input id="TAB-01" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" id="TAB-01" for="TAB-01">ID</label>
-        <div class="tab-content">
+        <div class="ngIdDisplay tab-content" style="display:none">
           <textarea id="textArea1">..loading</textarea>
         </div>
-        <input id="TAB-02" type="radio" name="TAB" class="tab-switch" /><label class="tab-label" id="TAB-02" for="TAB-02">TEXT</label>
-        <div class="tab-content">
+        <div class="ngTextDisplay tab-content" style="display:none">
           <textarea id="textArea2">..loading</textarea>
         </div>
-        <input id="Minimize" type="radio" name="TAB" class="tab-switch" checked="checked" /><label class="tab-label" for="Minimize">minimize</label>
-        <div class="tab-content">
+        <div class="optionDisplay tab-content" style="display:none">
+          <label>
+            <input type="checkbox" name="ngDisplayType">
+            NGを非表示
+          </label>
+          <label>
+            <input type="checkbox" name="relatedCommentType">
+            NGに対するレスをNGとして扱う
+          </label>
+          <label>
+            <input type='number' name='commentCapCount' style="margin-left:8px;width:35px">
+            回以上コメントするとNGとして扱う
+          </label>
         </div>
       </div>
     </div>
     `)
-
-    //作成した要素をページに追加
     const mainContainer = document.querySelector('body')
-    mainContainer.insertBefore(newElm, mainContainer.firstChild)
-    function textToElm(text) {
-      const blankElm = document.createElement('div')
-      blankElm.innerHTML = text
-      return blankElm.querySelector(':scope :first-child')
+    mainContainer.insertBefore(dropDown, mainContainer.firstChild)
+
+    dropDown.addEventListener('change', (event) => {
+      const ngId = document.querySelector<HTMLElement>('.ngIdDisplay')
+      const ngText = document.querySelector<HTMLElement>('.ngTextDisplay')
+      const option = document.querySelector<HTMLElement>('.optionDisplay')
+      ngId.style.display = event.target.value !== 'NGID' ? 'none' : ''
+      ngText.style.display = event.target.value !== 'NGTEXT' ? 'none' : ''
+      option.style.display = event.target.value !== 'OPTION' ? 'none' : ''
+      event.stopPropagation()
+    })
+
+    const hideNgComment = getInputElm('ngDisplayType')
+    const relatedCommentType = getInputElm('relatedCommentType')
+    const commentCapCount = getInputElm('commentCapCount')
+    hideNgComment.checked = GV.hideNgComment
+    relatedCommentType.checked = GV.relatedCommentType
+    commentCapCount.value = GV.commentCapCount + ''
+
+    hideNgComment.addEventListener('change', (e) => {
+      GV.hideNgComment = e.target.checked
+      saveLocalOption()
+      e.stopPropagation()
+    })
+    relatedCommentType.addEventListener('change', (e) => {
+      GV.relatedCommentType = e.target.checked
+      saveLocalOption()
+      e.stopPropagation()
+    })
+
+    commentCapCount.addEventListener('change', (e) => {
+      GV.commentCapCount = e.target.value
+      saveLocalOption()
+      e.stopPropagation()
+    })
+
+    function getInputElm(name: string) {
+      return document.querySelector<HTMLInputElement>(`[name=${name}]`)
     }
+  }
+  function textToElm(text) {
+    const blankElm = document.createElement('div')
+    blankElm.innerHTML = text
+    return blankElm.querySelector(':scope :first-child')
   }
 
   function setDisplayList() {
@@ -367,8 +429,8 @@ namespace AnicoBan {
         .map((cur) => cur.id)
         .reverse()
         .join('\n')
-    const idTab = document.querySelector('label#TAB-01')
-    idTab.innerHTML = 'ID( ' + GV.ngIdHash.size + ' )'
+    //const idTab = document.querySelector('label#TAB-01')
+    //idTab.innerHTML = 'ID( ' + GV.ngIdHash.size + ' )'
 
     const textArea2 = document.querySelector<HTMLTextAreaElement>('#textArea2')
     textArea2.value = ''
@@ -378,8 +440,8 @@ namespace AnicoBan {
         .map((cur) => cur.word)
         .reverse()
         .join('\n')
-    const textTab = document.querySelector('label#TAB-02')
-    textTab.innerHTML = 'TEXT( ' + GV.ngWordHash.size + ' )'
+    //const textTab = document.querySelector('label#TAB-02')
+    //textTab.innerHTML = 'TEXT( ' + GV.ngWordHash.size + ' )'
   }
 
   function updateNgIdHash(settingArea: HTMLTextAreaElement) {
@@ -469,6 +531,28 @@ namespace AnicoBan {
   function saveLocalNgWordList() {
     const jsonString = JSON.stringify([...GV.ngWordHash])
     GM.setValue(GV.LOCALNGWORDFILE, jsonString)
+  }
+
+  async function loadLocalOption() {
+    const jsonString = await GM.getValue(GV.LOCALOPTIONFILE, undefined)
+    if (jsonString === undefined) return
+    const option = JSON.parse(jsonString)
+    console.log('load option', option)
+
+    GV.hideNgComment = option.showNgComment
+    GV.commentCapCount = option.commentCapCount
+    GV.relatedCommentType = option.relatedCommentType
+  }
+
+  function saveLocalOption() {
+    const option = {
+      showNgComment: GV.hideNgComment,
+      commentCapCount: GV.commentCapCount,
+      relatedCommentType: GV.relatedCommentType,
+    }
+    console.log('save option', option)
+    const jsonString = JSON.stringify(option)
+    GM.setValue(GV.LOCALOPTIONFILE, jsonString)
   }
   //---------------------------------
   // alternative default GM_addStyle
