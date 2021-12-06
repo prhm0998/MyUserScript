@@ -24,6 +24,12 @@ window.addEventListener('load', async () => {
   //
   honbun.addEventListener('wheel', horizonScroll)
   honbun.addEventListener('dblclick', doubleClick)
+  //タイトルを本文内に移動
+  const subTitle = document.querySelector('.novel_subtitle')
+  honbun.prepend(subTitle)
+  //下側の操作メニューの複製を本文内に表示
+  const bn = document.querySelectorAll('.novel_bn')[1].cloneNode(true)
+  honbun.append(bn)
 })
 
 function addExtraOptionArea() {
