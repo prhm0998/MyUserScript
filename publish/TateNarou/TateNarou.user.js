@@ -17,7 +17,6 @@
 // ==/UserScript==
 
 let style;
-GM_addStyle(GM_getResourceText('IMPORTED_CSS'));
 class GlobalVariables {
     constructor() {
         this.reverse = false;
@@ -28,13 +27,12 @@ class GlobalVariables {
         this.scrollOnLoad = true;
     }
 }
+GM_addStyle(GM_getResourceText('IMPORTED_CSS'));
 let GV = new GlobalVariables();
 window.addEventListener('load', async () => {
     await loadLocalOption();
     addExtraOptionArea();
     const honbun = document.querySelector('#novel_honbun');
-    if (GV.scrollOnLoad)
-        honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' });
     if (GV.wide)
         honbun.style.height = GV.height + 'vh';
     if (GV.latinToZen)
@@ -45,6 +43,8 @@ window.addEventListener('load', async () => {
     honbun.prepend(subTitle);
     const bn = document.querySelectorAll('.novel_bn')[1].cloneNode(true);
     honbun.append(bn);
+    if (GV.scrollOnLoad)
+        honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' });
 });
 function addExtraOptionArea() {
     const nav = document.querySelector('.novelview_navi');

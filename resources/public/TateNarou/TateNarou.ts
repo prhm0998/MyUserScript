@@ -1,6 +1,5 @@
 // option /////////////
 let style
-GM_addStyle(GM_getResourceText('IMPORTED_CSS'))
 class GlobalVariables {
   reverse: boolean = false //方向反転
   amount: number = 200 //スクロール量 矢印キーの移動が200ぐらいだったので合わせた
@@ -9,14 +8,13 @@ class GlobalVariables {
   latinToZen: boolean = true //本文中の半角英字を全角英字に変換する
   scrollOnLoad: boolean = true //画面読み込み時、本文に位置を合わせる
 }
+// @ts-ignore
+GM_addStyle(GM_getResourceText('IMPORTED_CSS'))
 let GV = new GlobalVariables()
 window.addEventListener('load', async () => {
   await loadLocalOption()
   addExtraOptionArea()
   const honbun = document.querySelector<HTMLElement>('#novel_honbun')
-  //ページ読み込み時に本文の位置へ移動する
-  if (GV.scrollOnLoad)
-    honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' })
   //ページ読み込み時のみ 本文の表示領域(高さ)を変更する
   if (GV.wide) honbun.style.height = GV.height + 'vh'
   //ページ読み込み時のみ 半角英字を全角にする
@@ -30,6 +28,9 @@ window.addEventListener('load', async () => {
   //下側の操作メニューの複製を本文内に表示
   const bn = document.querySelectorAll('.novel_bn')[1].cloneNode(true)
   honbun.append(bn)
+  //ページ読み込み時に本文の位置へ移動する
+  if (GV.scrollOnLoad)
+    honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' })
 })
 
 function addExtraOptionArea() {
