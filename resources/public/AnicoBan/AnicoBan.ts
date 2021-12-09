@@ -7,8 +7,9 @@ namespace AnicoBan {
     ngIdHash: Map<string, User>
     ngWordHash: Map<string, Word>
     hideNgComment: boolean = false //trueはNGを非表示, falseは薄く表示
-    relatedCommentType: boolean = true //NGに対しての返信をNGとして扱う
-    commentCapCount: number = 10 //同じ記事内でn件以上コメントした場合NG
+    relatedCommentType: boolean = true //NGに対しての返信を(その記事内で)NGとして扱う
+    relatedNGWordType: boolean = true //NGWordに該当したコメントのIDをNGIDに追加する
+    commentCapCount: number = 10 //同じ記事内でn件以上コメントした場合(その記事内で)NG
     constructor() {
       this.ngIdHash = new Map<string, User>()
       this.ngWordHash = new Map<string, Word>()
@@ -74,19 +75,6 @@ namespace AnicoBan {
       setDisplayList()
     }, 350)
   })
-
-  const ngIdArea = document.querySelector<HTMLTextAreaElement>('#textArea1')
-  if (ngIdArea) {
-    ngIdArea.addEventListener('focusout', () => {
-      updateNgIdHash(ngIdArea)
-    })
-  }
-  const ngWordArea = document.querySelector<HTMLTextAreaElement>('#textArea2')
-  if (ngWordArea) {
-    ngWordArea.addEventListener('focusout', () => {
-      updateNgWordHash(ngWordArea)
-    })
-  }
 
   const overWrite_ContentsField = () => {
     const commentList = document.querySelector('#comments-list')
@@ -154,24 +142,17 @@ namespace AnicoBan {
       const anchorIds = m.anchorIndexes.map( n => commentsWork.find(m => m.commentIndex === n )?.authorId)
       // prettier-ignore
       const containsNgWord = [...GV.ngWordHash.keys()].find((word) => m.commentText.includes(word))
-      // prettier-ignore
-      const isBannedId = GV.ngIdHash.has(m.authorId)
-
-      const isBannedCommentCount = idTotalCount >= GV.commentCapCount
-      if (isBannedId) {
-        update_BanId(m.authorId)
-      }
-      //const isBannedResponses = anchorIds.some((n) => GV.ngIdHash.has(n))
-      //if (isBannedResponses) {
-      //  anchorIds
-      //    .filter((n) => GV.ngIdHash.has(n))
-      //    .forEach((l) => {
-      //      update_BanId(l)
-      //    })
-      //}
       const isContainsNgWord = containsNgWord !== undefined
       if (isContainsNgWord) {
         update_BanWord(containsNgWord)
+        //NGWordに該当した場合、NGIDに登録する
+        if (!GV.ngIdHash.has(m.authorId)) ban_ID(m.authorId)
+      }
+      // prettier-ignore
+      const isBannedId = GV.ngIdHash.has(m.authorId)
+      const isBannedCommentCount = idTotalCount >= GV.commentCapCount
+      if (isBannedId) {
+        update_BanId(m.authorId)
       }
       m.idCurrentCount = idCurrentCount
       m.idTotalCount = idTotalCount
@@ -369,6 +350,10 @@ namespace AnicoBan {
             <input type='number' name='commentCapCount' style="margin-left:8px;width:35px">
             回以上コメントするとNGとして扱う
           </label>
+          <label>
+            <input type="checkbox" name="relatedNGWordType">
+            NGワードに該当した場合、NGIDに登録する
+          </label>
         </div>
       </div>
     </div>
@@ -389,9 +374,11 @@ namespace AnicoBan {
     const hideNgComment = getInputElm('ngDisplayType')
     const relatedCommentType = getInputElm('relatedCommentType')
     const commentCapCount = getInputElm('commentCapCount')
+    const relatedNGWordType = getInputElm('relatedNGWordType')
     hideNgComment.checked = GV.hideNgComment
     relatedCommentType.checked = GV.relatedCommentType
     commentCapCount.value = GV.commentCapCount + ''
+    relatedNGWordType.checked = GV.relatedNGWordType
 
     hideNgComment.addEventListener('change', (e) => {
       GV.hideNgComment = e.target.checked
@@ -409,6 +396,25 @@ namespace AnicoBan {
       saveLocalOption()
       e.stopPropagation()
     })
+
+    relatedNGWordType.addEventListener('change', (e) => {
+      GV.relatedNGWordType = e.target.checked
+      saveLocalOption()
+      e.stopPropagation()
+    })
+
+    const ngIdArea = document.querySelector<HTMLTextAreaElement>('#textArea1')
+    if (ngIdArea) {
+      ngIdArea.addEventListener('focusout', () => {
+        updateNgIdHash(ngIdArea)
+      })
+    }
+    const ngWordArea = document.querySelector<HTMLTextAreaElement>('#textArea2')
+    if (ngWordArea) {
+      ngWordArea.addEventListener('focusout', () => {
+        updateNgWordHash(ngWordArea)
+      })
+    }
 
     function getInputElm(name: string) {
       return document.querySelector<HTMLInputElement>(`[name=${name}]`)
@@ -538,10 +544,10 @@ namespace AnicoBan {
     if (jsonString === undefined) return
     const option = JSON.parse(jsonString)
     console.log('load option', option)
-
     GV.hideNgComment = option.showNgComment
     GV.commentCapCount = option.commentCapCount
     GV.relatedCommentType = option.relatedCommentType
+    GV.relatedNGWordType = option.relatedNGWordType
   }
 
   function saveLocalOption() {
@@ -549,6 +555,7 @@ namespace AnicoBan {
       showNgComment: GV.hideNgComment,
       commentCapCount: GV.commentCapCount,
       relatedCommentType: GV.relatedCommentType,
+      relatedNGWordType: GV.relatedNGWordType,
     }
     console.log('save option', option)
     const jsonString = JSON.stringify(option)

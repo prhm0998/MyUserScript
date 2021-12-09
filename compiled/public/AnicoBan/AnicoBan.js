@@ -7,6 +7,7 @@ var AnicoBan;
             this.LOCALOPTIONFILE = 'LocalOption';
             this.hideNgComment = false;
             this.relatedCommentType = true;
+            this.relatedNGWordType = true;
             this.commentCapCount = 10;
             this.ngIdHash = new Map();
             this.ngWordHash = new Map();
@@ -55,18 +56,6 @@ var AnicoBan;
             setDisplayList();
         }, 350);
     });
-    const ngIdArea = document.querySelector('#textArea1');
-    if (ngIdArea) {
-        ngIdArea.addEventListener('focusout', () => {
-            updateNgIdHash(ngIdArea);
-        });
-    }
-    const ngWordArea = document.querySelector('#textArea2');
-    if (ngWordArea) {
-        ngWordArea.addEventListener('focusout', () => {
-            updateNgWordHash(ngWordArea);
-        });
-    }
     const overWrite_ContentsField = () => {
         const commentList = document.querySelector('#comments-list');
         const commentsWork = Array.from(commentList.querySelectorAll('ol > li')).map((m, index) => {
@@ -109,14 +98,16 @@ var AnicoBan;
                 .filter((n) => n.authorId === m.authorId).length;
             const anchorIds = m.anchorIndexes.map(n => { var _a; return (_a = commentsWork.find(m => m.commentIndex === n)) === null || _a === void 0 ? void 0 : _a.authorId; });
             const containsNgWord = [...GV.ngWordHash.keys()].find((word) => m.commentText.includes(word));
+            const isContainsNgWord = containsNgWord !== undefined;
+            if (isContainsNgWord) {
+                update_BanWord(containsNgWord);
+                if (!GV.ngIdHash.has(m.authorId))
+                    ban_ID(m.authorId);
+            }
             const isBannedId = GV.ngIdHash.has(m.authorId);
             const isBannedCommentCount = idTotalCount >= GV.commentCapCount;
             if (isBannedId) {
                 update_BanId(m.authorId);
-            }
-            const isContainsNgWord = containsNgWord !== undefined;
-            if (isContainsNgWord) {
-                update_BanWord(containsNgWord);
             }
             m.idCurrentCount = idCurrentCount;
             m.idTotalCount = idTotalCount;
@@ -288,6 +279,10 @@ var AnicoBan;
             <input type='number' name='commentCapCount' style="margin-left:8px;width:35px">
             回以上コメントするとNGとして扱う
           </label>
+          <label>
+            <input type="checkbox" name="relatedNGWordType">
+            NGワードに該当した場合、NGIDに登録する
+          </label>
         </div>
       </div>
     </div>
@@ -306,9 +301,11 @@ var AnicoBan;
         const hideNgComment = getInputElm('ngDisplayType');
         const relatedCommentType = getInputElm('relatedCommentType');
         const commentCapCount = getInputElm('commentCapCount');
+        const relatedNGWordType = getInputElm('relatedNGWordType');
         hideNgComment.checked = GV.hideNgComment;
         relatedCommentType.checked = GV.relatedCommentType;
         commentCapCount.value = GV.commentCapCount + '';
+        relatedNGWordType.checked = GV.relatedNGWordType;
         hideNgComment.addEventListener('change', (e) => {
             GV.hideNgComment = e.target.checked;
             saveLocalOption();
@@ -324,6 +321,23 @@ var AnicoBan;
             saveLocalOption();
             e.stopPropagation();
         });
+        relatedNGWordType.addEventListener('change', (e) => {
+            GV.relatedNGWordType = e.target.checked;
+            saveLocalOption();
+            e.stopPropagation();
+        });
+        const ngIdArea = document.querySelector('#textArea1');
+        if (ngIdArea) {
+            ngIdArea.addEventListener('focusout', () => {
+                updateNgIdHash(ngIdArea);
+            });
+        }
+        const ngWordArea = document.querySelector('#textArea2');
+        if (ngWordArea) {
+            ngWordArea.addEventListener('focusout', () => {
+                updateNgWordHash(ngWordArea);
+            });
+        }
         function getInputElm(name) {
             return document.querySelector(`[name=${name}]`);
         }
@@ -432,12 +446,14 @@ var AnicoBan;
         GV.hideNgComment = option.showNgComment;
         GV.commentCapCount = option.commentCapCount;
         GV.relatedCommentType = option.relatedCommentType;
+        GV.relatedNGWordType = option.relatedNGWordType;
     }
     function saveLocalOption() {
         const option = {
             showNgComment: GV.hideNgComment,
             commentCapCount: GV.commentCapCount,
             relatedCommentType: GV.relatedCommentType,
+            relatedNGWordType: GV.relatedNGWordType,
         };
         console.log('save option', option);
         const jsonString = JSON.stringify(option);
