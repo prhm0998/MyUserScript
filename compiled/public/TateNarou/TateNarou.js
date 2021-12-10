@@ -17,8 +17,6 @@ window.addEventListener('load', async () => {
     const honbun = document.querySelector('#novel_honbun');
     if (GV.wide)
         honbun.style.height = GV.height + 'vh';
-    if (GV.latinToZen)
-        latinToZen(honbun);
     honbun.addEventListener('wheel', horizonScroll);
     honbun.addEventListener('dblclick', doubleClick);
     const subTitle = document.querySelector('.novel_subtitle');
@@ -27,6 +25,8 @@ window.addEventListener('load', async () => {
     honbun.append(bn);
     if (GV.scrollOnLoad)
         honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' });
+    if (GV.latinToZen)
+        latinToZen(honbun);
 });
 function addExtraOptionArea() {
     const nav = document.querySelector('.novelview_navi');
@@ -92,7 +92,7 @@ function latinToZen(element) {
     else {
         element.textContent = replaceText(element.textContent);
         function replaceText(text) {
-            return text.replace(/[A-Za-z]/g, (s) => {
+            return text.replace(/[0-9A-Za-z]/g, (s) => {
                 return String.fromCharCode(s.charCodeAt(0) + 65248);
             });
         }

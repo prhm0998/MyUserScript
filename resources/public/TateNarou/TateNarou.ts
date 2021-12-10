@@ -17,8 +17,6 @@ window.addEventListener('load', async () => {
   const honbun = document.querySelector<HTMLElement>('#novel_honbun')
   //ページ読み込み時のみ 本文の表示領域(高さ)を変更する
   if (GV.wide) honbun.style.height = GV.height + 'vh'
-  //ページ読み込み時のみ 半角英字を全角にする
-  if (GV.latinToZen) latinToZen(honbun)
   //
   honbun.addEventListener('wheel', horizonScroll)
   honbun.addEventListener('dblclick', doubleClick)
@@ -31,6 +29,8 @@ window.addEventListener('load', async () => {
   //ページ読み込み時に本文の位置へ移動する
   if (GV.scrollOnLoad)
     honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' })
+  //ページ読み込み時のみ 半角英字を全角にする
+  if (GV.latinToZen) latinToZen(honbun)
 })
 
 function addExtraOptionArea() {
@@ -110,7 +110,7 @@ function latinToZen(element: HTMLElement) {
   } else {
     element.textContent = replaceText(element.textContent)
     function replaceText(text: string) {
-      return text.replace(/[A-Za-z]/g, (s) => {
+      return text.replace(/[0-9A-Za-z]/g, (s) => {
         return String.fromCharCode(s.charCodeAt(0) + 65248) //アルファベットの半角を全角へ変換
       })
     }
