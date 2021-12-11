@@ -38,7 +38,8 @@ window.addEventListener('load', async () => {
     honbun.addEventListener('wheel', horizonScroll);
     honbun.addEventListener('dblclick', doubleClick);
     const subTitle = document.querySelector('.novel_subtitle');
-    honbun.prepend(subTitle);
+    if (subTitle)
+        honbun.prepend(subTitle);
     const bn = document.querySelectorAll('.novel_bn')[1].cloneNode(true);
     honbun.append(bn);
     if (GV.scrollOnLoad)
