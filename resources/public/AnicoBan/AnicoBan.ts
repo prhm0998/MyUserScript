@@ -362,11 +362,9 @@ namespace AnicoBan {
     mainContainer.insertBefore(dropDown, mainContainer.firstChild)
 
     dropDown.addEventListener('change', (event) => {
-      const tab = document.querySelector<HTMLElement>('.tab-wrap')
       const ngId = document.querySelector<HTMLElement>('.ngIdDisplay')
       const ngText = document.querySelector<HTMLElement>('.ngTextDisplay')
       const option = document.querySelector<HTMLElement>('.optionDisplay')
-      tab.style.display = event.target.value === 'close' ? 'none' : ''
       ngId.style.display = event.target.value !== 'NGID' ? 'none' : ''
       ngText.style.display = event.target.value !== 'NGTEXT' ? 'none' : ''
       option.style.display = event.target.value !== 'OPTION' ? 'none' : ''
@@ -437,6 +435,8 @@ namespace AnicoBan {
         .map((cur) => cur.id)
         .reverse()
         .join('\n')
+    //const idTab = document.querySelector('label#TAB-01')
+    //idTab.innerHTML = 'ID( ' + GV.ngIdHash.size + ' )'
 
     const textArea2 = document.querySelector<HTMLTextAreaElement>('#textArea2')
     textArea2.value = ''
@@ -446,6 +446,8 @@ namespace AnicoBan {
         .map((cur) => cur.word)
         .reverse()
         .join('\n')
+    //const textTab = document.querySelector('label#TAB-02')
+    //textTab.innerHTML = 'TEXT( ' + GV.ngWordHash.size + ' )'
   }
 
   function updateNgIdHash(settingArea: HTMLTextAreaElement) {
@@ -461,7 +463,7 @@ namespace AnicoBan {
         newMap.set(alreadryUser.id, alreadryUser)
       } else {
         //手動で入力あり
-        newMap.set(element, new User(element))
+        newMap.set(element, new User(element, getFormatDate(), getFormatDate()))
       }
     })
     GV.ngIdHash = newMap
@@ -483,7 +485,7 @@ namespace AnicoBan {
         newMap.set(alreadyWord.word, alreadyWord)
       } else {
         //手動で入力あり
-        newMap.set(element, new Word(element))
+        newMap.set(element, new Word(element, getFormatDate(), getFormatDate()))
       }
     })
     GV.ngWordHash = newMap
@@ -541,7 +543,7 @@ namespace AnicoBan {
     const jsonString = await GM.getValue(GV.LOCALOPTIONFILE, undefined)
     if (jsonString === undefined) return
     const option = JSON.parse(jsonString)
-    //console.log('load option', option)
+    console.log('load option', option)
     GV.hideNgComment = option.showNgComment
     GV.commentCapCount = option.commentCapCount
     GV.relatedCommentType = option.relatedCommentType
@@ -555,7 +557,7 @@ namespace AnicoBan {
       relatedCommentType: GV.relatedCommentType,
       relatedNGWordType: GV.relatedNGWordType,
     }
-    //console.log('save option', option)
+    console.log('save option', option)
     const jsonString = JSON.stringify(option)
     GM.setValue(GV.LOCALOPTIONFILE, jsonString)
   }

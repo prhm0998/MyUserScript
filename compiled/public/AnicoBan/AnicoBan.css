@@ -2,7 +2,6 @@
   position: fixed;
   top: 0;
   right: 10px;
-  width: 370px;
   justify-content: flex-end;
   z-index: 100;
 }

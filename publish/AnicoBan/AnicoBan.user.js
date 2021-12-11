@@ -306,11 +306,9 @@ var AnicoBan;
         const mainContainer = document.querySelector('body');
         mainContainer.insertBefore(dropDown, mainContainer.firstChild);
         dropDown.addEventListener('change', (event) => {
-            const tab = document.querySelector('.tab-wrap');
             const ngId = document.querySelector('.ngIdDisplay');
             const ngText = document.querySelector('.ngTextDisplay');
             const option = document.querySelector('.optionDisplay');
-            tab.style.display = event.target.value === 'close' ? 'none' : '';
             ngId.style.display = event.target.value !== 'NGID' ? 'none' : '';
             ngText.style.display = event.target.value !== 'NGTEXT' ? 'none' : '';
             option.style.display = event.target.value !== 'OPTION' ? 'none' : '';
@@ -395,7 +393,7 @@ var AnicoBan;
                 newMap.set(alreadryUser.id, alreadryUser);
             }
             else {
-                newMap.set(element, new User(element));
+                newMap.set(element, new User(element, getFormatDate(), getFormatDate()));
             }
         });
         GV.ngIdHash = newMap;
@@ -414,7 +412,7 @@ var AnicoBan;
                 newMap.set(alreadyWord.word, alreadyWord);
             }
             else {
-                newMap.set(element, new Word(element));
+                newMap.set(element, new Word(element, getFormatDate(), getFormatDate()));
             }
         });
         GV.ngWordHash = newMap;
@@ -460,6 +458,7 @@ var AnicoBan;
         if (jsonString === undefined)
             return;
         const option = JSON.parse(jsonString);
+        console.log('load option', option);
         GV.hideNgComment = option.showNgComment;
         GV.commentCapCount = option.commentCapCount;
         GV.relatedCommentType = option.relatedCommentType;
@@ -472,6 +471,7 @@ var AnicoBan;
             relatedCommentType: GV.relatedCommentType,
             relatedNGWordType: GV.relatedNGWordType,
         };
+        console.log('save option', option);
         const jsonString = JSON.stringify(option);
         GM.setValue(GV.LOCALOPTIONFILE, jsonString);
     }
