@@ -20,17 +20,33 @@ window.addEventListener('load', async () => {
   //
   honbun.addEventListener('wheel', horizonScroll)
   honbun.addEventListener('dblclick', doubleClick)
-  //タイトルを本文内に移動
+  /* このへんの操作は順序が大事 */
+  //タイトルを本文先頭に移動
+  const title = document.querySelector('.novel_title')
+  if (title) honbun.prepend(title)
+  //サブタイトルを本文先頭に移動
   const subTitle = document.querySelector('.novel_subtitle')
   if (subTitle) honbun.prepend(subTitle)
-  //下側の操作メニューの複製を本文内に表示
-  const bn = document.querySelectorAll('.novel_bn')[1].cloneNode(true)
-  honbun.append(bn)
+  //nobel_pを本文先頭に移動
+  const novelpp = document.querySelectorAll('.novel_view#novel_p > p')
+  if (novelpp) novelpp.forEach((p) => honbun.prepend(p))
+  //nobel_aを本文末尾に移動
+  const novelap = document.querySelectorAll('.novel_view#novel_a > p')
+  if (novelap) novelap.forEach((p) => honbun.append(p))
+  //下側の操作メニューの複製を本文末尾に表示
+  const bn = document.querySelectorAll('.novel_bn')[1]?.cloneNode(true)
+  if (bn) honbun.append(bn)
   //ページ読み込み時に本文の位置へ移動する
   if (GV.scrollOnLoad)
     honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' })
   //ページ読み込み時のみ 半角英字を全角にする
   if (GV.latinToZen) latinToZen(honbun)
+
+  //いらなくなった要素を削除
+  const novelp = document.querySelector('.novel_view#novel_p')
+  if (novelp) novelp.remove()
+  const novela = document.querySelector('.novel_view#novel_a')
+  if (novela) novela.remove()
 })
 
 function addExtraOptionArea() {

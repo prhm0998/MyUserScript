@@ -12,6 +12,7 @@ class GlobalVariables {
 GM_addStyle(GM_getResourceText('IMPORTED_CSS'));
 let GV = new GlobalVariables();
 window.addEventListener('load', async () => {
+    var _a;
     await loadLocalOption();
     addExtraOptionArea();
     const honbun = document.querySelector('#novel_honbun');
@@ -19,15 +20,31 @@ window.addEventListener('load', async () => {
         honbun.style.height = GV.height + 'vh';
     honbun.addEventListener('wheel', horizonScroll);
     honbun.addEventListener('dblclick', doubleClick);
+    const title = document.querySelector('.novel_title');
+    if (title)
+        honbun.prepend(title);
     const subTitle = document.querySelector('.novel_subtitle');
     if (subTitle)
         honbun.prepend(subTitle);
-    const bn = document.querySelectorAll('.novel_bn')[1].cloneNode(true);
-    honbun.append(bn);
+    const novelpp = document.querySelectorAll('.novel_view#novel_p > p');
+    if (novelpp)
+        novelpp.forEach((p) => honbun.prepend(p));
+    const novelap = document.querySelectorAll('.novel_view#novel_a > p');
+    if (novelap)
+        novelap.forEach((p) => honbun.append(p));
+    const bn = (_a = document.querySelectorAll('.novel_bn')[1]) === null || _a === void 0 ? void 0 : _a.cloneNode(true);
+    if (bn)
+        honbun.append(bn);
     if (GV.scrollOnLoad)
         honbun.scrollIntoView({ inline: 'start', behavior: 'smooth' });
     if (GV.latinToZen)
         latinToZen(honbun);
+    const novelp = document.querySelector('.novel_view#novel_p');
+    if (novelp)
+        novelp.remove();
+    const novela = document.querySelector('.novel_view#novel_a');
+    if (novela)
+        novela.remove();
 });
 function addExtraOptionArea() {
     const nav = document.querySelector('.novelview_navi');
