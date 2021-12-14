@@ -51,7 +51,7 @@ namespace PixivNG {
   //pixiv用のuserscriptはwindow.loadだと不発になったりする
   let style
   ;(() => {
-    console.log('load PixivNG.jsxx,:' + getFormatDateF())
+    console.log('load PixivNG.js,:' + getFormatDateF())
     // @ts-ignore
     GM_addStyle(GM_getResourceText('IMPORTED_CSS'))
     createSettingArea()
@@ -65,8 +65,8 @@ namespace PixivNG {
     //画面スクロールで何度でもチェックする
     const st = window.pageYOffset || document.documentElement.scrollTop
     if (
-      st < GV.lastScroll - 150 ||
-      st > GV.lastScroll + 150 ||
+      st < GV.lastScroll - 90 ||
+      st > GV.lastScroll + 90 ||
       GV.lastScroll === -1
     ) {
       GV.lastScroll = st <= 0 ? 0 : st
