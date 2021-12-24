@@ -66,7 +66,7 @@ var AnicoBan;
         await loadLocalNgWordList();
         await loadLocalOption();
         createSettingArea();
-        console.log('load AnicoBan.js, date:' + getFormatDateF(), GV);
+        console.log('load AnicoBan.js, date:' + getFormatDateF());
         overWrite_ContentsField();
         window.setTimeout(function () {
             setDisplayList();
@@ -460,7 +460,6 @@ var AnicoBan;
         if (jsonString === undefined)
             return;
         const option = JSON.parse(jsonString);
-        console.log('load option', option);
         GV.hideNgComment = option.showNgComment;
         GV.commentCapCount = option.commentCapCount;
         GV.relatedCommentType = option.relatedCommentType;
@@ -473,7 +472,6 @@ var AnicoBan;
             relatedCommentType: GV.relatedCommentType,
             relatedNGWordType: GV.relatedNGWordType,
         };
-        console.log('save option', option);
         const jsonString = JSON.stringify(option);
         GM.setValue(GV.LOCALOPTIONFILE, jsonString);
     }
