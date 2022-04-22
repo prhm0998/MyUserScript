@@ -147,7 +147,7 @@ var AnicoBan;
                 else {
                     newIdElm.style.color = '';
                 }
-                newIdElm.title = GV.ngIdHash.has(comment.authorId) ? 'NG解除' : '名前でNG';
+                newIdElm.title = GV.ngIdHash.has(comment.authorId) ? 'NG解除' : 'IDでNG';
                 newIdElm.style.cursor = 'pointer';
                 newIdElm.onmouseover = function (e) {
                     e.target.style.textDecoration = 'underline';

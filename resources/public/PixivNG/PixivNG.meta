@@ -9,7 +9,9 @@
 // @grant        GM.setValue
 // @grant        GM.getValue
 // @description  T
-// @require                   file:///f:/js/MyUserScript/compiled/public/PixivNG/PixivNG.js
+// @require                   file:///C:\js\MyUserScript\compiled\public\PixivNG\PixivNG.js
 // @grant        GM_getResourceText
-// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/PixivNG/PixivNG.css
+// @resource     IMPORTED_CSS file:///c:/js/MyUserScript/compiled/public/PixivNG/PixivNG.css
 // ==/UserScript==
+
+C:\js\MyUserScript\compiled\public\PixivNG\PixivNG.js

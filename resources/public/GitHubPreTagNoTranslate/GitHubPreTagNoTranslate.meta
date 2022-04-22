@@ -5,5 +5,5 @@
 // @author       PRHM
 // @include      https://github.com/*
 // @description  Github内でコード記述を翻訳しない
-// @require                   file:///f:/js/MyUserScript/compiled/public/GitHubPreTagNoTranslate/GitHubPreTagNoTranslate.js
+// @require                   file:///C:/js/MyUserScript/compiled/public/GitHubPreTagNoTranslate/GitHubPreTagNoTranslate.js
 // ==/UserScript==

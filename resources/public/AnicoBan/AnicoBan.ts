@@ -85,12 +85,12 @@ namespace AnicoBan {
       // prettier-ignore
       const authorName = m.querySelector('.comment-author').lastChild.textContent.trim()
       // prettier-ignore
-      const authorId = m.querySelector('.comment-id').firstChild.textContent.trim().replace(/ID:/g,'')
+      const authorId = m.querySelector('.comment-id').firstChild.textContent.trim().replace(/ID:/g, '')
       // prettier-ignore
       const commentIndex = parseInt(m.querySelector('.comment-author > .nom').textContent)
       const commentDate = m.querySelector('.comment-date').textContent
       const commentText = m.querySelector('.comment-body').textContent
-      /* 
+      /*
         このコメントが返信しているコメント先のレス番を抜き出す
         ただし、文字引用などで正しくないアンカーが埋め込まれている可能性あり。他レスの全コピペなどがそうなりやすい
         とりあえず対策として未来へのアンカーは弾く、実際に使用する際にはundefinedのチェックをする
@@ -139,7 +139,7 @@ namespace AnicoBan {
         .slice(0, currentIndex + 1)
         .filter((n) => n.authorId === m.authorId).length
       // prettier-ignore
-      const anchorIds = m.anchorIndexes.map( n => commentsWork.find(m => m.commentIndex === n )?.authorId)
+      const anchorIds = m.anchorIndexes.map(n => commentsWork.find(m => m.commentIndex === n)?.authorId)
       // prettier-ignore
       const containsNgWord = [...GV.ngWordHash.keys()].find((word) => m.commentText.includes(word))
       const isContainsNgWord = containsNgWord !== undefined
@@ -199,7 +199,7 @@ namespace AnicoBan {
           newIdElm.style.color = ''
         }
         // prettier-ignore
-        newIdElm.title = GV.ngIdHash.has(comment.authorId) ? 'NG解除' : '名前でNG'
+        newIdElm.title = GV.ngIdHash.has(comment.authorId) ? 'NG解除' : 'IDでNG'
         newIdElm.style.cursor = 'pointer'
         // @ts-ignore
         newIdElm.onmouseover = function (e: { target: HTMLDivElement }) {
@@ -260,8 +260,8 @@ namespace AnicoBan {
             (m) => m.commentIndex === anchorIndex
           )
           const reres = currentAnc.element.querySelectorAll<HTMLElement>('.reres')
-          const targetAnc = Array.from(reres).filter(m => m.querySelector('a').getAttribute('href') === '#comm'+comment.commentIndex)
-          targetAnc[0].style.display = "none" 
+          const targetAnc = Array.from(reres).filter(m => m.querySelector('a').getAttribute('href') === '#comm' + comment.commentIndex)
+          targetAnc[0].style.display = "none"
         })
       } else {
         //Not Guilty

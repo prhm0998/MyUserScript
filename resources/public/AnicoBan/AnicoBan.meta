@@ -9,7 +9,7 @@
 // @description   あにこびんコメント欄にNG機能を追加+α
 // @grant        GM.setValue
 // @grant        GM.getValue
-// @require                   file:///f:/js/MyUserScript/compiled/public/AnicoBan/AnicoBan.js
+// @require                   file:///C:/js/MyUserScript/compiled/public/AnicoBan/AnicoBan.js
 // @grant        GM_getResourceText
-// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/AnicoBan/AnicoBan.css
+// @resource     IMPORTED_CSS file:///C:/js/MyUserScript/compiled/public/AnicoBan/AnicoBan.css
 // ==/UserScript==
