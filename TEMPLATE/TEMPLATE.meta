@@ -10,6 +10,6 @@
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @description  コピーしたフォルダーをある程度整形してからpublic/privateに移動する
-// @require                   file:///f:/js/MyUserScript/compiled/public/ScriptName/ScriptName.js
-// @resource     IMPORTED_CSS file:///f:/js/MyUserScript/compiled/public/ScriptName/ScriptName.css
+// @require                   file:///C:/js/MyUserScript/compiled/public/ScriptName/ScriptName.js
+// @resource     IMPORTED_CSS file:///C:/js/MyUserScript/compiled/public/ScriptName/ScriptName.css
 // ==/UserScript==

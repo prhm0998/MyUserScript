@@ -98,19 +98,23 @@ function addExtraOptionArea() {
     const honbunHeight = getInputElm('honbunHeight');
     const latinToZen = getInputElm('latinToZen');
     wheelReverse.addEventListener('change', (e) => {
-        GV.reverse = e.target.checked;
+        if (e.target instanceof HTMLInputElement && e.target.checked)
+            GV.reverse = e.target.checked;
         saveLocalOption();
     });
     fixedOnLoad.addEventListener('change', (e) => {
-        GV.scrollOnLoad = e.target.checked;
+        if (e.target instanceof HTMLInputElement && e.target.checked)
+            GV.scrollOnLoad = e.target.checked;
         saveLocalOption();
     });
     honbunHeight.addEventListener('change', (e) => {
-        GV.wide = e.target.checked;
+        if (e.target instanceof HTMLInputElement && e.target.checked)
+            GV.wide = e.target.checked;
         saveLocalOption();
     });
     latinToZen.addEventListener('change', (e) => {
-        GV.latinToZen = e.target.checked;
+        if (e.target instanceof HTMLInputElement && e.target.checked)
+            GV.latinToZen = e.target.checked;
         saveLocalOption();
     });
     wheelReverse.checked = GV.reverse;

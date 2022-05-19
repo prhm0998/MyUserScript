@@ -11,9 +11,10 @@
 // @description  T
 // @grant        GM_getResourceText
 // @resource     IMPORTED_CSS https://raw.githubusercontent.com/prhm0998/MyUserScript/master/publish/PixivNG/PixivNG.css
-// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/PixivNG/PixivNG.user.js
 // ==/UserScript==
+// @updateURL    https://github.com/prhm0998/MyUserScript/raw/master/publish/PixivNG/PixivNG.user.js
 
+C:\js\MyUserScript\compiled\public\PixivNG\PixivNG.js
 var PixivNG;
 (function (PixivNG) {
     class GlobalVariable {

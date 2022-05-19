@@ -249,10 +249,10 @@ namespace AnicoBan {
         body.classList.remove('cf1', 'cf2', 'cf3')
         /*
           NGコメントがレスしている先のアンカー表示を消し飛ばす
-          自身が保存しているanchorIndexesを元にレス先のelementを取り出す(currentArc)
-          currentArcからアンカー表示部分を取り出す(reres, reresは他にもアンカーがある可能性があるため複数)
-          reresの中からaタグのhrefに#comm+レス番 が含むものが自分用のアンカー表示
-          それを消す
+           1.自身が保存しているanchorIndexesを元にレス先のelementを取り出す(currentArc)
+           2.currentArcからアンカー表示部分を取り出す(reres, reresは複数ある可能性がある)
+           3.reresの中からaタグのhrefに#comm+レス番 が含むものが自分用のアンカー表示
+           4.それを消す
         */
         // prettier-ignore
         comment.anchorIndexes.forEach(anchorIndex => {
@@ -541,7 +541,6 @@ namespace AnicoBan {
     const jsonString = await GM.getValue(GV.LOCALOPTIONFILE, undefined)
     if (jsonString === undefined) return
     const option = JSON.parse(jsonString)
-    //console.log('load option', option)
     GV.hideNgComment = option.showNgComment
     GV.commentCapCount = option.commentCapCount
     GV.relatedCommentType = option.relatedCommentType
