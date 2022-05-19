@@ -209,9 +209,11 @@ var AnicoBan;
                 body.classList.remove('cf1', 'cf2', 'cf3');
                 comment.anchorIndexes.forEach(anchorIndex => {
                     const currentAnc = comments.find((m) => m.commentIndex === anchorIndex);
-                    const reres = currentAnc.element.querySelectorAll('.reres');
-                    const targetAnc = Array.from(reres).filter(m => m.querySelector('a').getAttribute('href') === '#comm' + comment.commentIndex);
-                    targetAnc[0].style.display = "none";
+                    if (currentAnc) {
+                        const reres = currentAnc.element.querySelectorAll('.reres');
+                        const targetAnc = Array.from(reres).filter(m => m.querySelector('a').getAttribute('href') === '#comm' + comment.commentIndex);
+                        targetAnc[0].style.display = "none";
+                    }
                 });
             }
             else {
@@ -297,7 +299,7 @@ var AnicoBan;
           </label>
           <label>
             <input type="checkbox" name="relatedNGWordType">
-            NGワードに該当した場合、NGIDに登録する
+            NGコメントに該当した場合、NGIDに登録する
           </label>
         </div>
       </div>

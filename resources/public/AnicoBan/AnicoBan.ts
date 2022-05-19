@@ -259,9 +259,11 @@ namespace AnicoBan {
           const currentAnc = comments.find(
             (m) => m.commentIndex === anchorIndex
           )
-          const reres = currentAnc.element.querySelectorAll<HTMLElement>('.reres')
-          const targetAnc = Array.from(reres).filter(m => m.querySelector('a').getAttribute('href') === '#comm' + comment.commentIndex)
-          targetAnc[0].style.display = "none"
+          if (currentAnc) {
+            const reres = currentAnc.element.querySelectorAll<HTMLElement>('.reres')
+            const targetAnc = Array.from(reres).filter(m => m.querySelector('a').getAttribute('href') === '#comm' + comment.commentIndex)
+            targetAnc[0].style.display = "none"
+          }
         })
       } else {
         //Not Guilty
@@ -352,7 +354,7 @@ namespace AnicoBan {
           </label>
           <label>
             <input type="checkbox" name="relatedNGWordType">
-            NGワードに該当した場合、NGIDに登録する
+            NGコメントに該当した場合、NGIDに登録する
           </label>
         </div>
       </div>
